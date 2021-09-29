@@ -1,6 +1,12 @@
+# content of myinvoke.py
 import pytest
+import sys
 
-from mypkg.fibonacci import fibonacci
 
-def test_fib_10():
-	assert(55 == 55)
+class MyPlugin:
+    def pytest_sessionfinish(self):
+        print("*** test run reporting finishing")
+
+
+if __name__ == "__main__":
+    sys.exit(pytest.main(["-qq"], plugins=[MyPlugin()]))
