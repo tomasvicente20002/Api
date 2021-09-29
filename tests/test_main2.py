@@ -2,9 +2,9 @@
 import sys
 
 
-def compare():
+def test_compare():
     assert 1==3
 
 
 if __name__ == "__main__":
-    sys.exit(compare)
+    sys.exit(test_compare)
