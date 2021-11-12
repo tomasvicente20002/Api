@@ -22,6 +22,4 @@ if __name__ == '__main__':
 
 
 
-
-
-        print("A seguir a revisão dos testes, Tomás tiveste 8.")
+print("teste")
