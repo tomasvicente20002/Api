@@ -19,7 +19,3 @@ if __name__ == '__main__':
         app.run(HOST, PORT)
     else:
         application.run(host='0.0.0.0')
-
-
-
-print("teste")
