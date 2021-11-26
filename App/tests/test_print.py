@@ -1,2 +1,2 @@
 ﻿def test_says_world():
-    assert "world" == 'world'
+    assert "world" == 'worl'
