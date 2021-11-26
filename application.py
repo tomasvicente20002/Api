@@ -20,4 +20,4 @@ if __name__ == '__main__':
     else:
         application.run(host='0.0.0.0')
         
-        pritf("dasdas")
+        teste.erro("dads")
