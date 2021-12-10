@@ -19,12 +19,20 @@ def home():
 @app.route('/contact')
 def contact():
     """Renders the contact page."""
-    return render_template(
+
+    template = render_template(
         'contact.html',
         title='Contact',
         year=datetime.now().year,
         message='Your contact page.'
     )
+
+    f = open("demofile2.txt", "w+")
+    f.write(template)
+    f.close()
+
+
+    return template
 
 @app.route('/about')
 def about():
