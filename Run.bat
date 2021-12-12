@@ -1,1 +1,0 @@
-CALL %0\..\App\__init__.py
