@@ -5,14 +5,20 @@ Routes and views for the flask application.
 from datetime import datetime
 from App import app
 from flask import jsonify
+from App.Tables import voos
+
 
 @app.route('/')
 @app.route('/home')
 def home():
+
+    table = voos.Voos()
+    table.name = '12'
     """Renders the home page."""
     return {
         'title':'Home Page',
-        'year':datetime.now().year
+        'year':datetime.now().year,
+        'table.name': table.name 
     }
     
 

@@ -3,8 +3,13 @@ The flask application package.
 """
 
 from flask import Flask
+import App.config as config
+from App.Tables import dal
 
-#extra variable for aws web server
-application = app = Flask(__name__)
 
-import App.views
+app = Flask(__name__)
+configuration = config.Configuration()
+conection = dal.SqlLiteConection(configuration)
+
+
+import App.Views
