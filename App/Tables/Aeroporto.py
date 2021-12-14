@@ -11,6 +11,7 @@ class Aeroporto(dal.Table):
             'Local_Aeroporto':dal.Field(str,'Local_Aeroporto'),
         }
         )
+<<<<<<< Updated upstream
 
     def get_id_aeroporto(self):
         return self.get_field_value('ID_Aeroporto') 
@@ -41,3 +42,5 @@ class Aeroporto(dal.Table):
         self.set_field_value('Local_Aeroporto',value)
 
     nome_aeroporto = property(get_local_aeroporto,set_local_aeroporto)
+=======
+>>>>>>> Stashed changes
