@@ -25,18 +25,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="application.py" />
-    <Compile Include="App\config.py" />
-    <Compile Include="App\helpers.py" />
-    <Compile Include="App\Tables\dal.py" />
-    <Compile Include="App\Tables\voos.py" />
-    <Compile Include="App\tests\test_print.py" />
-    <Compile Include="App\views.py" />
-    <Compile Include="App\__init__.py" />
+    <Compile Include="App\**" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App" />
     <Folder Include="App\Tables" />
-    <Folder Include="App\tests" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
