@@ -3,7 +3,10 @@ This script runs the RC application using a development server.
 """
 
 from os import environ
-from App import app
+from App import app,conection
+from App.Tables import voos
+
+
 
 
 if __name__ == '__main__':
