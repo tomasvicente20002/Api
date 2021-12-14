@@ -34,18 +34,20 @@ class SqlLiteConection():
             
     def execute_query(self,query,params = None):
         if(params == None):
-            cur = self.conection.cursor(query)
+            cur = self.conection.execute(query)
         else:
-            cur = self.conection.cursor(query,params)
+            cur = self.conection.execute(query,params)
             
-        return cur.fetchall()
+        return cur
 
 
 class Field:
-    def __init__(self,type,column_name,pk = False):
+    def __init__(self,type,column_name,help = '',pk = False):
         self.type = type
         self.column_name = column_name
-        self.is_pk = pk        
+        self.is_pk = pk
+        self.help = help
+
 
     def get_value(self):
         return self._value
@@ -68,6 +70,7 @@ class Table:
     def set_field_value(self,name,value):
         self.field[name].value = value
 
+
     def insert(self,conection:SqlLiteConection):
         insert_query = f'INSERT INTO [{self.table_name}] ('  
         values_query = 'VALUES('
@@ -83,3 +86,7 @@ class Table:
         conection.open_transaction()
         conection.execute(insert_query, self.fields.values())
         conection.commit()
+
+    @staticmethod
+    def get_by_pk_id(id : int):
+        return ''
