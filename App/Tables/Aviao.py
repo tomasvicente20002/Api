@@ -26,7 +26,7 @@ class Aeroporto(dal.Table):
     def set_nome_aviao(self,value):
         self.set_field_value('Nome_Aviao',value)
 
-    nome_aeroporto = property(get_nome_aviao,set_field_value)
+    nome_aeroporto = property(get_nome_aviao,set_nome_aviao)
 
 
     def get_tipo_aviao(self):
