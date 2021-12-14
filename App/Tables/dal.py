@@ -70,8 +70,13 @@ class Table:
     def set_field_value(self,name,value):
         self.field[name].value = value
 
+    def get_new_pk_id():
+        query = 'select max()'
 
     def insert(self,conection:SqlLiteConection):
+
+        sel
+
         insert_query = f'INSERT INTO [{self.table_name}] ('  
         values_query = 'VALUES('
 
