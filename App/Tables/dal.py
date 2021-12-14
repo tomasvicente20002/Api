@@ -3,7 +3,43 @@ from sqlite3.dbapi2 import apilevel
 
 class SqlLiteConection():
     def __init__(self,config):
-        print(config.get_database_name())
+        self.conection_is_open = False
+        self.database_name = config.get_database_name()
+
+    def open_conection(self):
+        if(not self.conection_is_open):
+            self.conection = sqlite3.connect(self.database_name)        
+
+    def close_conection(self):
+        self.conection.close()
+
+    def commit(self):
+        self.conection.commit()
+
+    def open_transaction(self):
+        self.open_conection()
+        self.conection.in_transaction
+
+    def close_transaction(self):
+        self.conection.commit()
+
+    def roolback(self):
+        self.conection.rollback()
+
+    def execute_non_query(self,query,params = None):
+        if(params == None):
+            self.conection.executescript(query)
+        else:
+            self.conection.executescript(query,params)
+            
+    def execute_query(self,query,params = None):
+        if(params == None):
+            cur = self.conection.cursor(query)
+        else:
+            cur = self.conection.cursor(query,params)
+            
+        return cur.fetchall()
+
 
 class Field:
     def __init__(self,type,column_name,pk = False):
@@ -32,5 +68,18 @@ class Table:
     def set_field_value(self,name,value):
         self.field[name].value = value
 
-    def insert(self,conection):
-        insert_query = f'INSERT INTO [{self.table_name}]'
+    def insert(self,conection:SqlLiteConection):
+        insert_query = f'INSERT INTO [{self.table_name}] ('  
+        values_query = 'VALUES('
+
+        for  fields in self.fields.keys():
+            insert_query += f'{fields}, '
+            values_query += '?, '
+
+
+        insert_query = insert_query[:-2] + ') ' 
+        insert_query += values_query [:-2] + ')'
+
+        conection.open_transaction()
+        conection.execute(insert_query, self.fields.values())
+        conection.commit()

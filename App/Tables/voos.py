@@ -11,4 +11,4 @@ class Voos(dal.Table):
     
     @name.setter
     def name(self, value):
-        self.fields['pkvoos'].value =value
+        self.fields['pkvoos'].value = value
