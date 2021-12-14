@@ -11,8 +11,6 @@ class Aeroporto(dal.Table):
         }
         )
 
-    from App.Tables import dal
-
     def get_id_aviao(self):
         return self.get_field_value('ID_Aviao') 
     def set_id_aviao(self,value):
