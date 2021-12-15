@@ -1,10 +1,8 @@
 """
 This script runs the RC application using a development server.
 """
-
 from os import environ
 from App import app
-from App.Tables.Aeroporto import Aeroporto
 
 if __name__ == '__main__':
     if __debug__:     
@@ -17,4 +15,4 @@ if __name__ == '__main__':
         app.debug = True
         app.run(HOST, PORT)
     else:
-        app.run(host='0.0.0.0')    
+        app.run(host='0.0.0.0')

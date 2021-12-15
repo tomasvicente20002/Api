@@ -27,6 +27,3 @@ class Aeroporto(Resource):
         aero.update(Aeroporto.conection)
         Aeroporto.conection.commit()
         return {'message': 'Record created successfully.'}, 201
-
-
-    

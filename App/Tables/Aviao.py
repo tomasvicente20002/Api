@@ -1,9 +1,9 @@
 from App.Tables import dal
 
 
-class Aeroporto(dal.Table):
+class Aviao(dal.Table):
     def __init__(self):
-        super().__init__('Aeroporto', 
+        super().__init__('Aviao', 
         {
             'ID_Aviao':dal.Field(int,'ID_Aviao', pk =True),
             'Nome_Aviao':dal.Field(str,'Nome_Aviao'),

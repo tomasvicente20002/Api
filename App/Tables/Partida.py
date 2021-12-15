@@ -1,4 +1,5 @@
 from App.Tables import dal
+from App.helpers import parse_string_to_date
 import datetime
 
 class Partida(dal.Table):
@@ -21,8 +22,12 @@ class Partida(dal.Table):
 
     def get_data_hora(self):
         return self.get_field_value('Data_Hora_Partida') 
+
     def set_data_hora(self,value):
-        self.set_field_value('Data_Hora_Partida',value) 
+        if(type(value) == str):
+            self.set_field_value('Data_Hora_Partida',parse_string_to_date(value))
+        else:
+            self.set_field_value('Data_Hora_Partida',value) 
 
     data_hora = property(get_data_hora,set_data_hora)
 
