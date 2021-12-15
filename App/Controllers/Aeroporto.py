@@ -24,7 +24,7 @@ class Aeroporto(Resource):
         aero = table_aeroporto()
         aero.read_from_args(data)
         Aeroporto.conection.open_conection()
-        aero.insert(Aeroporto.conection)
+        aero.update(Aeroporto.conection)
         Aeroporto.conection.commit()
         return {'message': 'Record created successfully.'}, 201
 
