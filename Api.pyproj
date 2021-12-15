@@ -29,7 +29,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App" />
+    <Folder Include="App\Controllers\" />
     <Folder Include="App\Tables" />
+    <Folder Include="App\templates\" />
+    <Folder Include="App\tests" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
