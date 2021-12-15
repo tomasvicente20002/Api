@@ -2,6 +2,7 @@
 import sqlite3
 from sqlite3.dbapi2 import apilevel
 from typing import Dict
+import json
 
 class SqlLiteConection():
     def __init__(self,config):
@@ -100,32 +101,53 @@ class Table:
         insert_query = insert_query[:-2] + ') ' 
         insert_query += values_query [:-2] + ')'
 
-        conection.open_transaction()
         conection.execute_query(insert_query, tuple(values))
-        conection.commit()
+
 
 
     def get_by_pk_id(self,id :int,conection:SqlLiteConection):     
         select_query = f'SELECT '
         values_pos = {}
         cnt = 0
-        for  field_key in self.fields.keys():
-            select_query += f'{field_key}, '
+        for field_key in self.fields.keys():
+            select_query += f'{self.table_name}.{field_key}, '
             values_pos[cnt] = field_key
             cnt+=1
 
         cnt-=1
         select_query = select_query[:-2]
         select_query += f' FROM {self.table_name}'
-        select_query += f' WHERE {self.fields[self.pk_field_key].column_name} = ?'
+        select_query += f' WHERE {self.table_name}.{self.fields[self.pk_field_key].column_name} = ?'
 
-        conection.open_conection()
+
         rows = conection.execute_query(select_query,(id,))
         
         while cnt >= 0:
             key = values_pos[cnt]
             self.fields[key].set_value(rows[0][cnt])
             cnt-=1
+    
+    def update(self,conection:SqlLiteConection):
+        update_query = f'UPDATE {self.table_name} SET '
+        values = []
+
+        for key in self.fields.keys():
+            if(key == self.pk_field_key):
+                continue
+
+            update_query += f'{key} = ?, '
+            values.append(self.fields[key].get_value())
+
+        values.append(self.fields[self.pk_field_key].get_value())
+        update_query = update_query[:-2]
+        update_query += f'WHERE {self.table_name}.{self.pk_field_key} = ?'
+
+        conection.execute_query(update_query,tuple(values))
 
     def get_json(self):
-        return ''
+        dic_values = {}
+
+        for key in self.fields.keys():
+            dic_values[key] = self.fields[key].get_value()
+            
+        return json.dumps(dic_values)

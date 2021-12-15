@@ -8,7 +8,13 @@ from App.Tables.Aeroporto import Aeroporto
 from App import conection
 
 aero = Aeroporto()
-aero.get_by_pk_id(1,conection)
+conection.open_conection()
+aero.get_by_pk_id(2,conection)
+aero.nome_aeroporto = 'nome 2'
+aero.update(conection)
+conection.commit()
+
+print(aero.get_json())
 
 if __name__ == '__main__':
     if __debug__:     
