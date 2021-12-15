@@ -7,7 +7,7 @@ class Aeroporto(dal.Table):
         {
             'ID_Aeroporto':dal.Field(int,'ID_Aeroporto', pk =True),
             'Nome_Aeroporto':dal.Field(str,'Nome_Aeroporto'),
-            'ID_Local':dal.Field(str,'ID_Local', pk = True),
+            'ID_Local':dal.Field(str,'ID_Local'),
             'Local_Aeroporto':dal.Field(str,'Local_Aeroporto'),
         }
         )
