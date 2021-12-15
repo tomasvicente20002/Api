@@ -2,6 +2,8 @@
 import sqlite3
 from sqlite3.dbapi2 import apilevel
 from typing import Dict
+import json
+from flask_restful import reqparse
 
 class SqlLiteConection():
     def __init__(self,config):
@@ -30,9 +32,6 @@ class SqlLiteConection():
 
     def execute_non_query(self,query):
         self.conection.executescript(query)
-
-
-
             
     def execute_query(self,query,params = None):
         if(params == None):
@@ -40,12 +39,11 @@ class SqlLiteConection():
         else:
             cur = self.conection.execute(query,params)
             
-        return cur
+        return cur.fetchall()
 
     def execute_scalar(self,query,params = None):
         rows = self.execute_query(query,params)
-        for row in rows:
-            return row[0]
+        return rows[0][0]
 
 
 class Field:
@@ -54,9 +52,7 @@ class Field:
         self.column_name = column_name
         self.is_pk = pk
         self.help = help
-        self.value = self.type()
-        
-
+        self.value = self.type()    
 
     def get_value(self):
         return self._value
@@ -77,8 +73,6 @@ class Table:
         for key in fields.keys():
             if(fields[key].is_pk):
                 self.pk_field_key = key
-
-
 
     def get_field_value(self,name):
         return self.fields[name].value
@@ -108,10 +102,74 @@ class Table:
         insert_query = insert_query[:-2] + ') ' 
         insert_query += values_query [:-2] + ')'
 
-        conection.open_transaction()
         conection.execute_query(insert_query, tuple(values))
-        conection.commit()
 
-    @staticmethod
-    def get_by_pk_id(id : int):
-        return ''
+
+
+    def get_by_pk_id(self,id :int,conection:SqlLiteConection):     
+        select_query = f'SELECT '
+        values_pos = {}
+        cnt = 0
+        for field_key in self.fields.keys():
+            select_query += f'{self.table_name}.{field_key}, '
+            values_pos[cnt] = field_key
+            cnt+=1
+
+        cnt-=1
+        select_query = select_query[:-2]
+        select_query += f' FROM {self.table_name}'
+        select_query += f' WHERE {self.table_name}.{self.fields[self.pk_field_key].column_name} = ?'
+
+
+        rows = conection.execute_query(select_query,(id,))
+        
+        while cnt >= 0:
+            key = values_pos[cnt]
+            self.fields[key].set_value(rows[0][cnt])
+            cnt-=1
+    
+    def update(self,conection:SqlLiteConection):
+        update_query = f'UPDATE {self.table_name} SET '
+        values = []
+
+        for key in self.fields.keys():
+            if(key == self.pk_field_key):
+                continue
+
+            update_query += f'{key} = ?, '
+            values.append(self.fields[key].get_value())
+
+        values.append(self.fields[self.pk_field_key].get_value())
+        update_query = update_query[:-2]
+        update_query += f'WHERE {self.table_name}.{self.pk_field_key} = ?'
+
+        conection.execute_query(update_query,tuple(values))
+
+
+    
+    def get_json(self):
+        dic_values = {}
+
+        for key in self.fields.keys():
+            dic_values[key] = self.fields[key].get_value()
+        return json.dumps(dic_values)
+
+    def get_json_without_pk(self):
+        dic_values = {}
+
+        for key in self.fields.keys():
+            if(key == self.pk_field_key):
+                continue
+
+            dic_values[key] = self.fields[key].get_value()
+            
+        return json.dumps(dic_values)
+
+    def add_args(self,reqparse:reqparse.RequestParser):
+        for key in self.fields.keys():
+            reqparse.add_argument(key,type =self.fields[key].type)
+
+
+    def read_from_args(self,args):
+        for key in args.keys():
+            self.set_field_value(key,args[key])

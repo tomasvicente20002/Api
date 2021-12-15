@@ -10,6 +10,7 @@ from flask_restful import Api
 from App.Controllers.teste import UserRegister
 from App.Controllers.home import Home
 from App.helpers import combine_with_base_path
+from App.Controllers.Aeroporto import Aeroporto
 
 app = application = Flask(__name__)
 configuration = config.Configuration()
@@ -22,7 +23,9 @@ conection.execute_non_query(f.read())
 f.close()
 conection.commit()
 
-
+app.url_map.strict_slashes = False
 api = Api(app)
-api.add_resource(UserRegister, '/items')
 api.add_resource(Home, '/home')
+api.add_resource(Aeroporto, '/aeroporto/','/aeroporto/<int:id>')
+
+#api.add_resource(Aeroporto, '/aeroporto')
