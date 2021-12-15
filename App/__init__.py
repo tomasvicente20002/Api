@@ -23,9 +23,9 @@ conection.execute_non_query(f.read())
 f.close()
 conection.commit()
 
-
+app.url_map.strict_slashes = False
 api = Api(app)
 api.add_resource(Home, '/home')
-api.add_resource(Aeroporto, '/aeroporto/<int:id>')
+api.add_resource(Aeroporto, '/aeroporto/','/aeroporto/<int:id>')
 
 #api.add_resource(Aeroporto, '/aeroporto')

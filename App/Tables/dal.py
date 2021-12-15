@@ -168,3 +168,8 @@ class Table:
     def add_args(self,reqparse:reqparse.RequestParser):
         for key in self.fields.keys():
             reqparse.add_argument(key,type =self.fields[key].type)
+
+
+    def read_from_args(self,args):
+        for key in args.keys():
+            self.set_field_value(key,args[key])
