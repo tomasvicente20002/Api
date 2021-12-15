@@ -3,7 +3,7 @@ import datetime
 
 class Chegada(dal.Table):
     def __init__(self):
-        super().__init__('Cheagda', 
+        super().__init__('Chegada', 
         {
             'ID_Chegada':dal.Field(int,'ID_Chegada',pk = True),
             'Data_Hora_Chegada':dal.Field(datetime,'Data_Hora_Chegada'),

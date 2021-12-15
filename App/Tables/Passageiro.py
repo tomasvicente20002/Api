@@ -3,7 +3,7 @@ from App.Tables import dal
 
 class Passageiro(dal.Table):
     def __init__(self):
-        super().__init__('Aeroporto', 
+        super().__init__('Passageiro', 
         {
             'ID_Passageiro':dal.Field(int,'ID_Aviao', pk =True),
             'Nome_Passageiro':dal.Field(str,'Nome_Passageiro'),

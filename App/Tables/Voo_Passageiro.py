@@ -6,8 +6,8 @@ class Voo_Passageiro(dal.Table):
         super().__init__('Voo_Passageiro', 
         {
             'ID_Voo_Passageiro':dal.Field(int,'ID_Voo_Passageiro', pk =True),
-            'ID_Voo':dal.Field(int,'ID_Voo'),
-            'ID_Passageiro':dal.Field(int,'ID_Passageiro'),
+            'ID_Voo':dal.Field(int,'ID_Voo', pk = True),
+            'ID_Passageiro':dal.Field(int,'ID_Passageiro', pk = True),
         }
         )
 
