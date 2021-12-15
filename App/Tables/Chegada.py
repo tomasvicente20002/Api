@@ -8,7 +8,7 @@ class Chegada(dal.Table):
         {
             'ID_Chegada':dal.Field(int,'ID_Chegada',pk = True),
             'Data_Hora_Chegada':dal.Field(datetime,'Data_Hora_Chegada'),
-            'ID_Aeroporto':dal.Field(int,'ID_Aeroporto',pk = True),
+            'ID_Aeroporto':dal.Field(int,'ID_Aeroporto'),
         }
         )
 
