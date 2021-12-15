@@ -8,7 +8,7 @@ class Partida(dal.Table):
         {
             'ID_Partida':dal.Field(int,'ID_Partida', pk =True),
             'Data_Hora_Partida':dal.Field(datetime,'Data_Hora_Partida'),
-            'ID_Aeroporto':dal.Field(int,'ID_Aeroporto', pk = True),
+            'ID_Aeroporto':dal.Field(int,'ID_Aeroporto'),
             'Local_Aeroporto':dal.Field(str,'Local_Aeroporto'),
         }
         )
