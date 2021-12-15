@@ -16,7 +16,7 @@ class Passageiro(Resource):
         Passageiro.conection.open_conection()
         passageiro = table_passageiro()
         passageiro.get_by_pk_id(id,Passageiro.conection)
-        return aero.get_json()
+        return passageiro.get_json()
 
     #inserir registo
     def post(self):
