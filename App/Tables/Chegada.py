@@ -1,4 +1,5 @@
 ﻿from App.Tables import dal
+from App.helpers import parse_string_to_date
 import datetime
 
 class Chegada(dal.Table):
@@ -19,10 +20,15 @@ class Chegada(dal.Table):
     id_chegada = property(get_id_chegada,set_id_cheagda)
 
 
+
+
     def get_Data_Hora(self):
         return self.get_field_value('Data_Hora_Chegada') 
     def set_nome_aviao(self,value):
-        self.set_field_value('Data_Hora_Chegada',value)
+        if(type(value) == str):
+            self.set_field_value('Data_Hora_Chegada',parse_string_to_date(value))
+        else:
+            self.set_field_value('Data_Hora_Chegada',value) 
 
     data_hora = property(get_Data_Hora,set_nome_aviao)
 

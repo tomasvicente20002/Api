@@ -1,10 +1,8 @@
-﻿from os import W_OK
-import sqlite3
-from sqlite3.dbapi2 import apilevel
+﻿import sqlite3
 from typing import Dict
 import json
 from flask_restful import reqparse
-
+import datetime
 
 class SqlLiteConection():
     def __init__(self,config):
@@ -53,13 +51,16 @@ class Field:
         self.column_name = column_name
         self.is_pk = pk
         self.help = help
-        self.value = self.type()    
+        self.value = self.type()  if self.type !=  datetime else datetime.date.min
 
     def get_value(self):
         return self._value
     
     def set_value(self,value):
-        self._value = self.type(value)
+        if self.type !=  datetime:
+            self._value = self.type(value)
+        else:
+            self._value = value
 
 
     value = property(get_value,set_value)
@@ -89,7 +90,10 @@ class Table:
 
 
     def insert(self,conection:SqlLiteConection):
-        self.set_new_pk_id(conection)
+
+        if(self.fields[self.pk_field_key].get_value() == None or self.fields[self.pk_field_key].get_value() == 0):
+            self.set_new_pk_id(conection)
+            
         insert_query = f'INSERT INTO [{self.table_name}] ('  
         values_query = 'VALUES('
         values = []
@@ -123,13 +127,23 @@ class Table:
 
 
         rows = conection.execute_query(select_query,(id,))
-        
-        while cnt >= 0:
-            key = values_pos[cnt]
-            self.fields[key].set_value(rows[0][cnt])
-            cnt-=1
+        if(len(rows) > 0):
+            while cnt >= 0:
+                key = values_pos[cnt]
+                self.fields[key].set_value(rows[0][cnt])
+                cnt-=1
+
+    def record_exist(self,conection:SqlLiteConection):
+        query = f'SELECT COUNT(1) FROM {self.table_name} WHERE {self.table_name}.{self.pk_field_key} = ?'
+        conection.execute_scalar(query,(self.fields[self.pk_field_key].get_value(),)) > 1
+
     
-    def update(self,conection:SqlLiteConection):
+    def update(self,conection:SqlLiteConection):    
+
+        if(not self.record_exist(conection)):
+            self.insert(conection)
+            return
+
         update_query = f'UPDATE {self.table_name} SET '
         values = []
 

@@ -1,10 +1,8 @@
 """
 This script runs the RC application using a development server.
 """
-
 from os import environ
 from App import app
-from App.Tables.Aeroporto import Aeroporto
 
 if __name__ == '__main__':
     if __debug__:     
