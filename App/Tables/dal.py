@@ -3,6 +3,7 @@ import sqlite3
 from sqlite3.dbapi2 import apilevel
 from typing import Dict
 import json
+from flask_restful import reqparse
 
 class SqlLiteConection():
     def __init__(self,config):
@@ -144,10 +145,26 @@ class Table:
 
         conection.execute_query(update_query,tuple(values))
 
+
+    
     def get_json(self):
         dic_values = {}
 
         for key in self.fields.keys():
             dic_values[key] = self.fields[key].get_value()
+        return json.dumps(dic_values)
+
+    def get_json_without_pk(self):
+        dic_values = {}
+
+        for key in self.fields.keys():
+            if(key == self.pk_field_key):
+                continue
+
+            dic_values[key] = self.fields[key].get_value()
             
         return json.dumps(dic_values)
+
+    def add_args(self,reqparse:reqparse.RequestParser):
+        for key in self.fields.keys():
+            reqparse.add_argument(key,type =self.fields[key].type)

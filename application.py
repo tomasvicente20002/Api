@@ -3,18 +3,8 @@ This script runs the RC application using a development server.
 """
 
 from os import environ
-from App import app,conection
+from App import app
 from App.Tables.Aeroporto import Aeroporto
-from App import conection
-
-aero = Aeroporto()
-conection.open_conection()
-aero.get_by_pk_id(2,conection)
-aero.nome_aeroporto = 'nome 2'
-aero.update(conection)
-conection.commit()
-
-print(aero.get_json())
 
 if __name__ == '__main__':
     if __debug__:     
