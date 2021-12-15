@@ -8,8 +8,7 @@ from App.Tables.Aeroporto import Aeroporto
 from App import conection
 
 aero = Aeroporto()
-aero.id_aeroporto = 1
-aero.insert()
+aero.get_by_pk_id(1,conection)
 
 if __name__ == '__main__':
     if __debug__:     

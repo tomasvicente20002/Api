@@ -33,11 +33,11 @@ class Aeroporto(dal.Table):
     def set_id_local(self,value):
         self.set_field_value('ID_Local',value)
 
-    nome_aeroporto = property(get_id_local,set_id_local)
+    id_local = property(get_id_local,set_id_local)
 
     def get_local_aeroporto(self):
         return self.get_field_value('Local_Aeroporto') 
     def set_local_aeroporto(self,value):
         self.set_field_value('Local_Aeroporto',value)
 
-    nome_aeroporto = property(get_local_aeroporto,set_local_aeroporto)
+    local_aeroporto = property(get_local_aeroporto,set_local_aeroporto)

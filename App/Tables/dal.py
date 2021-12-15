@@ -30,9 +30,6 @@ class SqlLiteConection():
 
     def execute_non_query(self,query):
         self.conection.executescript(query)
-
-
-
             
     def execute_query(self,query,params = None):
         if(params == None):
@@ -40,12 +37,11 @@ class SqlLiteConection():
         else:
             cur = self.conection.execute(query,params)
             
-        return cur
+        return cur.fetchall()
 
     def execute_scalar(self,query,params = None):
         rows = self.execute_query(query,params)
-        for row in rows:
-            return row[0]
+        return rows[0][0]
 
 
 class Field:
@@ -54,9 +50,7 @@ class Field:
         self.column_name = column_name
         self.is_pk = pk
         self.help = help
-        self.value = self.type()
-        
-
+        self.value = self.type()    
 
     def get_value(self):
         return self._value
@@ -77,8 +71,6 @@ class Table:
         for key in fields.keys():
             if(fields[key].is_pk):
                 self.pk_field_key = key
-
-
 
     def get_field_value(self,name):
         return self.fields[name].value
@@ -112,6 +104,28 @@ class Table:
         conection.execute_query(insert_query, tuple(values))
         conection.commit()
 
-    @staticmethod
-    def get_by_pk_id(id : int):
+
+    def get_by_pk_id(self,id :int,conection:SqlLiteConection):     
+        select_query = f'SELECT '
+        values_pos = {}
+        cnt = 0
+        for  field_key in self.fields.keys():
+            select_query += f'{field_key}, '
+            values_pos[cnt] = field_key
+            cnt+=1
+
+        cnt-=1
+        select_query = select_query[:-2]
+        select_query += f' FROM {self.table_name}'
+        select_query += f' WHERE {self.fields[self.pk_field_key].column_name} = ?'
+
+        conection.open_conection()
+        rows = conection.execute_query(select_query,(id,))
+        
+        while cnt >= 0:
+            key = values_pos[cnt]
+            self.fields[key].set_value(rows[0][cnt])
+            cnt-=1
+
+    def get_json(self):
         return ''
