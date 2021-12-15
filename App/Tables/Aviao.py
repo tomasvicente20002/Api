@@ -1,7 +1,7 @@
 from App.Tables import dal
 
 
-class Aeroporto(dal.Table):
+class Aviao(dal.Table):
     def __init__(self):
         super().__init__('Aviao', 
         {

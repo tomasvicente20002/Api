@@ -12,9 +12,9 @@ from App.Controllers.home import Home
 from App.helpers import combine_with_base_path
 from App.Controllers.Aeroporto import Aeroporto
 from App.Controllers.Aviao import Aviao
-from App.Controlers.Chegada import Chegada
-from App.Controlers.Passageiro import Passageiro
-from App.Controlers.Partida import Partida
+from App.Controllers.Chegada import Chegada
+from App.Controllers.Passageiro import Passageiro
+from App.Controllers.Partida import Partida
 from App.Controllers.Voo import Voo
 from App.Controllers.Voo_Passageiro import Voo_Passageiro
 

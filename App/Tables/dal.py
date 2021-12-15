@@ -5,6 +5,7 @@ from typing import Dict
 import json
 from flask_restful import reqparse
 
+
 class SqlLiteConection():
     def __init__(self,config):
         self.conection_is_open = False
